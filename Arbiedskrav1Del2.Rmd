@@ -1,0 +1,79 @@
+---
+title: "Arbeidskrav1del2"
+author: "Magnus Kleiven"
+date: "8 10 2020"
+output: html_document
+---
+
+## R Markdown
+This R-Markdown file will produce a table. First we need to load packages.
+
+```{r load-packages, message = FALSE, warning = FALSE}
+
+library(tidyverse)
+library(knitr) # for tables
+library(readxl)
+```
+
+
+## Load the data
+
+```{r load-data, warning = FALSE, message = FALSE}
+
+Keiser <- read_excel("./Plotting-av-styrke.xlsx")
+
+```
+
+## Select variables to use
+
+
+```{r}
+Keiser %>%
+  select("FP", "Tid", "Bein", "Maks effekt W") %>%
+print()
+```
+
+
+
+## Calculate difference between t1 and t2
+
+```{r}
+Keiser %>%
+  select("FP", "Tid", "Bein", "Maks effekt W") %>%
+  pivot_wider(names_from = "Tid", values_from = "Maks effekt W") %>%
+  mutate(diff = t2 - t1) %>%
+ print()
+
+
+```
+
+
+## Calculate sd of diff
+
+```{r summarise-data, warning = FALSE, message = FALSE, results = "asis"}
+
+Keiser %>%
+  select("FP", "Tid", "Bein", "Maks effekt W") %>%
+  pivot_wider(names_from = "Tid", values_from = "Maks effekt W") %>%
+  mutate(diff = t2 - t1) %>%
+  summarise(sd.diff = sd(diff)) %>%
+  print()
+  
+
+
+```
+
+
+
+## Calculate Technical Error (te) as diff / squareroot
+
+```{r}
+Keiser %>%
+  select("FP", "Tid", "Bein", "Maks effekt W") %>%
+  pivot_wider(names_from = "Tid", values_from = "Maks effekt W") %>%
+  mutate(diff = t2 - t1) %>%
+  summarise(sd.diff = sd(diff),
+            te = sd.diff / sqrt(2)) %>%
+  print()
+
+```
