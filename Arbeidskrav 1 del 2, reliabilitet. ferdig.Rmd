@@ -21,8 +21,9 @@ library(readxl)
 
 ## Load the data
 
-```{r load-data, warning = FALSE, message = FALSE}
 
+```{r load-data, warning = FALSE, message = FALSE}
+# The data is missing from the git hub repository
 Keiser <- read_excel("./Plotting-av-styrke1.xlsx")
 
 ```
@@ -38,6 +39,9 @@ print()
 ## Calculate difference between t1 and t2
 
 ```{r}
+
+# Add commnets to describewhat the code does!
+
 Keiser %>%
   select("FP", "Tid", "Bein", "Maks effekt W") %>%
   pivot_wider(names_from = "Tid", values_from = "Maks effekt W") %>%
